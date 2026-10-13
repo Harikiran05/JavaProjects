@@ -1,3 +1,5 @@
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Scanner;
 
 public class SmartConverter {
@@ -5,12 +7,15 @@ public class SmartConverter {
     
     Scanner input = new Scanner(System.in);
 
+    BigDecimal rupeesDollar = new BigDecimal("83.00");
+
     System.out.println("Welcome to Smart Converter!");
     System.out.println("1. Celcius to Fahrenheit");
     System.out.println("2. INR to USD");
     System.out.println("3. Kilograms to Pounds");
     System.out.println("4. Kilometers to Miles");
-    System.out.println("5. exit");
+    System.out.println("5. Floating Point Demo");
+    System.out.println("6. Exit");
 
     System.out.print("Enter your choice: ");
     int choice = input.nextInt();
@@ -28,11 +33,15 @@ public class SmartConverter {
       
       case 2: {
         System.out.println("Enter amount in INR: " );
-        double inr  = input.nextDouble();
+        BigDecimal inr  = new BigDecimal(input.next());
 
-        double usd = inr/83.0;
-        System.out.println("USD: "+ usd);
-        System.out.println("Integer value after casting: " + (int) usd);
+        BigDecimal usd = inr.divide(
+          rupeesDollar,
+          2,
+          RoundingMode.HALF_UP
+        );
+        System.out.println("USD: $"+ usd.toPlainString());
+        
 
         break;
       }
@@ -43,8 +52,7 @@ public class SmartConverter {
 
         double pounds = kilograms*2.20462;
         System.out.println("Pounds: "+ pounds);
-        System.out.println("Integer value after casting: " + (int) pounds);
-
+      
         break;
       }
 
@@ -59,7 +67,19 @@ public class SmartConverter {
         break;
       }
 
-      case 5: 
+      case 5: {
+        double doubleResult = 0.1 + 0.2;
+
+        BigDecimal decimalResult = 
+                  new BigDecimal("0.1").add(new BigDecimal("0.2"));
+
+                  System.out.println("Using double: " + doubleResult);
+
+                  System.out.println("Using BigDecimal: " + decimalResult.toPlainString());
+
+                  break;
+      }
+      case 6: 
         System.out.println("Goodbye!");
         break;
       
