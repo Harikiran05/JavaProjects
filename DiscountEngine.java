@@ -1,9 +1,23 @@
-
-
+import java.util.Map;
 public class DiscountEngine {
+
+  private static final Map<String, Double> CUSTOMER_DISCOUNTS = 
+          Map.of(
+            "STUDENT", 5.0,
+            "SENIOR", 8.0,
+            "REGULAR", 0.0
+          );
+
+  private static final Map<String, Double> MEMBERSHIP_DISCOUNTS = 
+          Map.of(
+            "SILVER", 2.0,
+            "GOLD", 5.0,
+            "PLATINUM", 8.0
+          );
+
   public static void main(String[] args) {
     String customerType = "STUDENT";
-    double orderAmount = 100;
+    double orderAmount = 6000.0;
     String couponCode = "SAVE10";
     String membershipTier = "GOLD";
 
@@ -12,20 +26,20 @@ public class DiscountEngine {
       return;
     }
 
-    if (!isValidCustomer(customerType)) {
+    if (!CUSTOMER_DISCOUNTS.containsKey(customerType)) {
       System.out.println("Invalid Customer type.");
       return;
     }
 
-    if (!isValidTier(membershipTier)) {
+    if (!MEMBERSHIP_DISCOUNTS.containsKey(membershipTier)) {
       System.out.println("Invalid Membership tier.");
       return;
     }
 
-    double customerDiscount = getCustomerDiscount(customerType);
+    double customerDiscount = CUSTOMER_DISCOUNTS.get(customerType);
     double amountDiscount = getAmountDiscount(orderAmount);
     double couponDiscount = getCouponDiscount(couponCode, orderAmount);
-    double membershipDiscount = getMembershipDiscount(membershipTier);
+    double membershipDiscount = MEMBERSHIP_DISCOUNTS.get(membershipTier);
 
     double totalDiscount = Math.min(customerDiscount + amountDiscount + couponDiscount + membershipDiscount, 30);
 
@@ -40,36 +54,7 @@ public class DiscountEngine {
 
   
 
-  static boolean isValidCustomer(String customerType) {
-    if (customerType == null) {
-      return false;
-    }
 
-    return switch (customerType) {
-      case "STUDENT", "SENIOR", "REGULAR" -> true;
-      default -> false;
-    };
-  }
-
-  static boolean isValidTier(String membershipTier) {
-    if(membershipTier == null){
-      return false;
-    }
-
-    return switch (membershipTier) {
-      case "SILVER", "GOLD", "PLATINUM" -> true;
-      default -> false;
-    };
-  }
-
-  static double getCustomerDiscount(String customerType) {
-    return switch (customerType) {
-      case "STUDENT" -> 5;
-      case "SENIOR" -> 8;
-      case "REGULAR" -> 0;
-      default -> 0;
-    };
-  }
 
   static double getAmountDiscount(double orderAmount) {
     if(orderAmount <= 0) {
@@ -98,12 +83,5 @@ public class DiscountEngine {
     return 10;
   }
 
-  static double getMembershipDiscount(String membershipTier) {
-    return switch (membershipTier) {
-      case "SILVER" -> 2;
-      case "GOLD" -> 5;
-      case "PLATINUM" -> 8;
-      default -> 0;
-    };
-  }
+
 }
