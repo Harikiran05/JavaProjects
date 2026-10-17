@@ -121,5 +121,6 @@ public class LibraryManagement {
       System.out.println("Book is unavailable");
     }
     System.out.println("Book available: " + book.available);
+    System.out.println();
   }
 }
