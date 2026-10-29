@@ -544,6 +544,6 @@ public class LibraryManagement {
         System.out.println("Final fine: " + fine.getAmount());
         System.out.println("Loan active: " + loan.isActive());
         System.out.println("Copy available: " + copy.isAvailable());
-        System.out.println();
+        
     }
 }
